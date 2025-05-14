@@ -8,7 +8,7 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class xatController extends Controller
+class XatController extends Controller
 {
     public function index()
     {
