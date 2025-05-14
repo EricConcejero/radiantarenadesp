@@ -354,7 +354,7 @@ export default {
             this.cargando = true;
             this.filtrandoPor = 'estadoEquipo';
 
-            const url = `${this.baseUrl}api/jugadores/filtro-equipo/${estado}`;
+            const url = `${this.baseUrl}jugadores/filtro-equipo/${estado}`;
             console.log(`Filtrando jugadores por estado: ${url}`);
 
             axios.get(url)
@@ -377,7 +377,7 @@ export default {
             this.cargando = true;
             this.filtrandoPor = 'equipoEspecifico';
 
-            const url = `${this.baseUrl}api/jugadores/filtro-equipo-especifico/${equipoId || 'null'}`;
+            const url = `${this.baseUrl}jugadores/filtro-equipo-especifico/${equipoId || 'null'}`;
             console.log(`Filtrando jugadores por equipo: ${url}`);
 
             axios.get(url)
@@ -400,7 +400,7 @@ export default {
             this.cargando = true;
             this.filtrandoPor = 'busqueda';
 
-            const url = `${this.baseUrl}api/jugadores/filtro-busqueda/${encodeURIComponent(busqueda)}`;
+            const url = `${this.baseUrl}jugadores/filtro-busqueda/${encodeURIComponent(busqueda)}`;
             console.log(`Buscando jugadores: ${url}`);
 
             axios.get(url)
