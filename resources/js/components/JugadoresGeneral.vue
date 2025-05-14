@@ -638,13 +638,20 @@ export default {
         }
     },
     mounted() {
-        // Calcular la URL base
-        const path = window.location.pathname;
-        if (path.includes('/public/')) {
-            this.baseUrl = window.location.origin + path.substring(0, path.indexOf('/public/') + 8);
+        // Detectar si estamos en producción o desarrollo
+        const isProduction = window.location.hostname === 'radiantarena.ericconcejero.me';
+
+        if (isProduction) {
+            // URL de producción
+            this.baseUrl = 'http://radiantarena.ericconcejero.me/';
+        } else if (window.location.pathname.includes('/public/')) {
+            // URL local con public
+            this.baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.indexOf('/public/') + 8);
         } else {
+            // URL local sin public
             this.baseUrl = window.location.origin + '/';
         }
+
         console.log('Using base URL:', this.baseUrl);
 
         // Cargar jugadores para el top 5
