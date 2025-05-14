@@ -177,7 +177,6 @@ export default {
                 'Inmortal': '#ff4654',  // Immortal - red
                 'Radiant': '#FFD700',  // Radiant - brighter gold color
             },
-            baseUrl: '',
             imagenPorDefecto: 'image_default.png'
         };
     },
