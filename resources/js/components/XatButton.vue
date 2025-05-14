@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!chatInterfaceActive" class="chat-button-container">
-    <a :href="chatRoute" class="chat-button" title="Abrir chat">
+  <div v-if="!xatInterfaceActive" class="xat-button-container">
+    <a :href="xatRoute" class="xat-button" title="Abrir xat">
       <i class="fas fa-comments"></i>
       <span v-if="unreadCount > 0" class="badge badge-danger">{{ unreadCount }}</span>
     </a>
@@ -14,14 +14,14 @@ export default {
   data() {
     return {
       unreadCount: 0,
-      chatRoute: '/radiantarena/radiantarena/laravel/public/chat',
+      xatRoute: '/radiantarena/radiantarena/laravel/public/xat',
       userId: null,
-      chatInterfaceActive: false, // New property to track if we're in chat interface
+      xatInterfaceActive: false, // New property to track if we're in xat interface
       intervalId: null
     }
   },
   mounted() {
-    console.log('Chat button component mounted');
+    console.log('xat button component mounted');
 
     // Get user ID from meta tag
     const userIdMeta = document.querySelector('meta[name="user-id"]');
@@ -36,11 +36,11 @@ export default {
       console.error('User ID meta tag not found');
     }
 
-    // Check if the current URL contains "chat" to determine if we're in the chat interface
-    this.chatInterfaceActive = window.location.pathname.includes('/chat');
+    // Check if the current URL contains "xat" to determine if we're in the xat interface
+    this.xatInterfaceActive = window.location.pathname.includes('/xat');
 
-    // Listen for events from the ChatComponent
-    document.addEventListener('chat-interface-active', this.handleChatInterfaceStatus);
+    // Listen for events from the xatComponent
+    document.addEventListener('xat-interface-active', this.handlexatInterfaceStatus);
   },
   beforeUnmount() {
     // Clear interval when component is destroyed
@@ -49,12 +49,12 @@ export default {
     }
 
     // Remove event listener
-    document.removeEventListener('chat-interface-active', this.handleChatInterfaceStatus);
+    document.removeEventListener('xat-interface-active', this.handlexatInterfaceStatus);
   },
   methods: {
-    handleChatInterfaceStatus(event) {
-      this.chatInterfaceActive = event.detail;
-      console.log('Chat interface active:', this.chatInterfaceActive);
+    handlexatInterfaceStatus(event) {
+      this.xatInterfaceActive = event.detail;
+      console.log('xat interface active:', this.xatInterfaceActive);
     },
     getUnreadCount() {
       if (!this.userId) {
@@ -68,7 +68,7 @@ export default {
       });
 
       // Use the direct path without the API prefix
-      http.get('/radiantarena/radiantarena/laravel/public/chat/unread-count')
+      http.get('/radiantarena/radiantarena/laravel/public/xat/unread-count')
         .then(response => {
           console.log('Unread count response:', response.data);
           this.unreadCount = response.data.count;
@@ -86,14 +86,14 @@ export default {
 </script>
 
 <style scoped>
-.chat-button-container {
+.xat-button-container {
   position: fixed;
   bottom: 30px;
   right: 30px;
   z-index: 999;
 }
 
-.chat-button {
+.xat-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,14 +107,14 @@ export default {
   text-decoration: none;
 }
 
-.chat-button:hover {
+.xat-button:hover {
   background-color: #be2834;
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   color: white;
 }
 
-.chat-button i {
+.xat-button i {
   font-size: 24px;
 }
 

@@ -86,28 +86,28 @@ Route::post('/editar', [UsuarioController::class, 'editar'])->name('editar');
 Route::get('/profile', [UsuarioController::class, 'showProfile'])->name('profile');
 Route::get('/api/profile', [UsuarioController::class, 'getProfileData'])->name('profile.data');
 
-// API routes para el chat
-Route::prefix('api/chat')->middleware('auth')->group(function () {
-    Route::get('/conversaciones', [ChatController::class, 'getConversaciones']);
-    Route::get('/{id}/mensajes', [ChatController::class, 'getMensajes']);
-    Route::post('/{id}/enviar', [ChatController::class, 'enviarMensaje']);
-    Route::get('/unread-count', [ChatController::class, 'getUnreadMessagesCount']);
+// API routes para el xat
+Route::prefix('api/xat')->middleware('auth')->group(function () {
+    Route::get('/conversaciones', [xatController::class, 'getConversaciones']);
+    Route::get('/{id}/mensajes', [xatController::class, 'getMensajes']);
+    Route::post('/{id}/enviar', [xatController::class, 'enviarMensaje']);
+    Route::get('/unread-count', [xatController::class, 'getUnreadMessagesCount']);
 });
 
-// Consolidate all chat routes in one group
+// Consolidate all xat routes in one group
 Route::middleware(['auth'])->group(function () {
-    // Chat routes
-    Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/create', [App\Http\Controllers\ChatController::class, 'create'])->name('chat.create');
-    Route::post('/chat/store', [App\Http\Controllers\ChatController::class, 'store'])->name('chat.store');
-    Route::get('/chat/conversaciones', [App\Http\Controllers\ChatController::class, 'getConversaciones']);
-    Route::get('/chat/{id}/mensajes', [App\Http\Controllers\ChatController::class, 'getMensajes']);
-    Route::post('/chat/{id}/enviar', [App\Http\Controllers\ChatController::class, 'enviarMensaje']);
-    Route::get('/chat/unread-count', [App\Http\Controllers\ChatController::class, 'getUnreadCount'])->name('chat.unread-count');
-    Route::get('/chat/{id}', [App\Http\Controllers\ChatController::class, 'show'])->name('chat.show');
+    // xat routes
+    Route::get('/xat', [App\Http\Controllers\xatController::class, 'index'])->name('xat.index');
+    Route::get('/xat/create', [App\Http\Controllers\xatController::class, 'create'])->name('xat.create');
+    Route::post('/xat/store', [App\Http\Controllers\xatController::class, 'store'])->name('xat.store');
+    Route::get('/xat/conversaciones', [App\Http\Controllers\xatController::class, 'getConversaciones']);
+    Route::get('/xat/{id}/mensajes', [App\Http\Controllers\xatController::class, 'getMensajes']);
+    Route::post('/xat/{id}/enviar', [App\Http\Controllers\xatController::class, 'enviarMensaje']);
+    Route::get('/xat/unread-count', [App\Http\Controllers\xatController::class, 'getUnreadCount'])->name('xat.unread-count');
+    Route::get('/xat/{id}', [App\Http\Controllers\xatController::class, 'show'])->name('xat.show');
 
-    // Vue chat legacy routes
-    Route::get('/vue-chat', [App\Http\Controllers\ChatController::class, 'vueChat'])->name('chat.vue');
-    Route::get('/vue-chat/{id}', [App\Http\Controllers\ChatController::class, 'vueChat'])->name('chat.vue.show');
+    // Vue xat legacy routes
+    Route::get('/vue-xat', [App\Http\Controllers\xatController::class, 'vuexat'])->name('xat.vue');
+    Route::get('/vue-xat/{id}', [App\Http\Controllers\xatController::class, 'vuexat'])->name('xat.vue.show');
 });
 

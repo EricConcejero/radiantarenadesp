@@ -1,9 +1,9 @@
 @extends('layouts.navbar')
 
 @section('content')
-<div class="container-fluid" data-vue-component="chat-component">
-    <!-- Chat Vue component will be mounted here -->
-    <chat-component></chat-component>
+<div class="container-fluid" data-vue-component="xat-component">
+    <!-- xat Vue component will be mounted here -->
+    <xat-component></xat-component>
 </div>
 @endsection
 

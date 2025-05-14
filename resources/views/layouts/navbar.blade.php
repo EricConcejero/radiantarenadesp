@@ -98,9 +98,9 @@
             @yield('content')
         </main>
 
-        <!-- Add the chat button component for authenticated users -->
+        <!-- Add the xat button component for authenticated users -->
         @auth
-            <chat-button></chat-button>
+            <xat-button></xat-button>
         @endauth
     </div>
 

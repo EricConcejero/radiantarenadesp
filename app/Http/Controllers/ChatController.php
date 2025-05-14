@@ -8,14 +8,14 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ChatController extends Controller
+class xatController extends Controller
 {
     public function index()
     {
         $usuario = Auth::user();
         $conversaciones = $usuario->conversaciones()->with(['ultimoMensaje', 'usuarios'])->get();
 
-        return view('chat.index', compact('conversaciones'));
+        return view('xat.index', compact('conversaciones'));
     }
 
     public function show($id)
@@ -26,7 +26,7 @@ class ChatController extends Controller
 
         // Verificar que el usuario pertenece a esta conversación
         if (!$conversacion->usuarios->contains($usuario->id_usuario)) {
-            return redirect()->route('chat.index');
+            return redirect()->route('xat.index');
         }
 
         // Marcar mensajes como leídos
@@ -35,13 +35,13 @@ class ChatController extends Controller
             ->where('leido', false)
             ->update(['leido' => true]);
 
-        return view('chat.show', compact('conversacion'));
+        return view('xat.show', compact('conversacion'));
     }
 
     public function create()
     {
         $usuarios = Usuario::where('id_usuario', '!=', Auth::id())->get();
-        return view('chat.create', compact('usuarios'));
+        return view('xat.create', compact('usuarios'));
     }
 
     public function store(Request $request)
@@ -81,15 +81,15 @@ class ChatController extends Controller
             ]);
         }
 
-        return redirect()->route('chat.show', $conversacion->id_conversacion);
+        return redirect()->route('xat.show', $conversacion->id_conversacion);
     }
 
     /**
      * Mostrar la vista con el componente Vue
      */
-    public function vueChat($id = null)
+    public function vuexat($id = null)
     {
-        return view('chat.vue-chat', compact('id'));
+        return view('xat.vue-xat', compact('id'));
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
-  <div class="chat-container">
-    <div class="chat-sidebar">
+  <div class="xat-container">
+    <div class="xat-sidebar">
       <h3>Conversaciones</h3>
       <ul class="conversation-list">
         <li v-for="conv in conversaciones" :key="conv.id_conversacion"
@@ -16,15 +16,15 @@
           </div>
         </li>
       </ul>
-      <a href="/chat/create" class="btn btn-primary btn-sm mt-3">Nueva conversación</a>
+      <a href="/xat/create" class="btn btn-primary btn-sm mt-3">Nueva conversación</a>
     </div>
 
-    <div class="chat-main" v-if="conversacionActual">
-      <div class="chat-header">
+    <div class="xat-main" v-if="conversacionActual">
+      <div class="xat-header">
         <h4>{{ conversacionActual.titulo || getConversationTitle(conversacionActual) }}</h4>
       </div>
 
-      <div class="chat-messages" ref="messageContainer">
+      <div class="xat-messages" ref="messageContainer">
         <div v-for="mensaje in conversacionActual.mensajes" :key="mensaje.id_mensaje"
              :class="['message', isOwnMessage(mensaje) ? 'message-own' : 'message-other']">
           <div class="message-avatar" v-if="!isOwnMessage(mensaje)">
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="chat-input">
+      <div class="xat-input">
         <form @submit.prevent="enviarMensaje">
           <div class="input-group">
             <input type="text" v-model="nuevoMensaje" class="form-control" placeholder="Escribe un mensaje...">
@@ -50,8 +50,8 @@
       </div>
     </div>
 
-    <div class="chat-placeholder" v-else>
-      <p>Selecciona una conversación para comenzar a chatear</p>
+    <div class="xat-placeholder" v-else>
+      <p>Selecciona una conversación para comenzar a xatear</p>
     </div>
   </div>
 </template>
@@ -101,23 +101,23 @@ export default {
     }
   },
   mounted() {
-    // Notify the app that we're in the chat interface
-    document.dispatchEvent(new CustomEvent('chat-interface-active', { detail: true }));
+    // Notify the app that we're in the xat interface
+    document.dispatchEvent(new CustomEvent('xat-interface-active', { detail: true }));
 
     // Add an event listener to handle route changes or page refreshes
     window.addEventListener('beforeunload', this.handlePageLeave);
   },
   beforeDestroy() {
-    // Notify the app that we're leaving the chat interface
-    document.dispatchEvent(new CustomEvent('chat-interface-active', { detail: false }));
+    // Notify the app that we're leaving the xat interface
+    document.dispatchEvent(new CustomEvent('xat-interface-active', { detail: false }));
 
     // Remove event listener
     window.removeEventListener('beforeunload', this.handlePageLeave);
   },
   methods: {
     handlePageLeave() {
-      // Reset the chat interface status when leaving
-      document.dispatchEvent(new CustomEvent('chat-interface-active', { detail: false }));
+      // Reset the xat interface status when leaving
+      document.dispatchEvent(new CustomEvent('xat-interface-active', { detail: false }));
     },
     isOwnMessage(mensaje) {
       // For debugging
@@ -127,7 +127,7 @@ export default {
     },
     cargarConversaciones() {
       // Use direct http instance with correct URL
-      this.http.get('chat/conversaciones')
+      this.http.get('xat/conversaciones')
         .then(response => {
           console.log('Conversaciones cargadas:', response.data);
           this.conversaciones = response.data;
@@ -144,7 +144,7 @@ export default {
       this.selectedConversationId = id;
 
       // Use direct http instance with correct URL
-      this.http.get(`chat/${id}/mensajes`)
+      this.http.get(`xat/${id}/mensajes`)
         .then(response => {
           console.log('Conversación cargada:', response.data);
           this.conversacionActual = response.data;
@@ -165,7 +165,7 @@ export default {
       if (!this.nuevoMensaje.trim() || !this.selectedConversationId) return;
 
       // Use direct http instance with correct URL
-      this.http.post(`/chat/${this.selectedConversationId}/enviar`, {
+      this.http.post(`/xat/${this.selectedConversationId}/enviar`, {
         mensaje: this.nuevoMensaje
       })
         .then(response => {
@@ -199,7 +199,7 @@ export default {
     },
     getConversationTitle(conversation) {
       // Si no hay título, mostrar los nombres de los participantes excepto el usuario actual
-      if (!conversation.usuarios) return 'Chat';
+      if (!conversation.usuarios) return 'xat';
 
       return conversation.usuarios
         .filter(u => u.id_usuario != this.usuarioActual)
@@ -212,7 +212,7 @@ export default {
 
 <style>
 /* Component-specific styles that don't rely on external CSS */
-.chat-container {
+.xat-container {
   display: flex;
   height: 80vh;
   border: none;
@@ -225,7 +225,7 @@ export default {
   max-width: 1200px;
 }
 
-.chat-sidebar {
+.xat-sidebar {
   width: 30%;
   background-color: #2a2a2a;
   border-right: 1px solid #333;
@@ -233,7 +233,7 @@ export default {
   overflow-y: auto;
 }
 
-.chat-sidebar h3 {
+.xat-sidebar h3 {
   color: #FE4454;
   font-size: 1.3rem;
   margin-bottom: 1.2rem;
@@ -315,27 +315,27 @@ export default {
   text-decoration: none;
 }
 
-.chat-main {
+.xat-main {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   background-color: #1a2733;
 }
 
-.chat-header {
+.xat-header {
   padding: 16px;
   background-color: #202a36;
   border-bottom: 1px solid #333;
   text-align: left;
 }
 
-.chat-header h4 {
+.xat-header h4 {
   color: #FE4454;
   margin: 0;
   font-size: 1.2rem;
 }
 
-.chat-messages {
+.xat-messages {
   flex-grow: 1;
   padding: 24px;
   overflow-y: auto;
@@ -442,7 +442,7 @@ export default {
   color: #999;
 }
 
-.chat-input {
+.xat-input {
   padding: 16px;
   background-color: #202a36;
   border-top: 1px solid #333;
@@ -453,7 +453,7 @@ export default {
   gap: 8px;
 }
 
-.chat-input input, .form-control {
+.xat-input input, .form-control {
   background-color: #333;
   border: 1px solid #444;
   color: #fff;
@@ -466,18 +466,18 @@ export default {
   font-size: 0.9rem;
 }
 
-.chat-input input:focus, .form-control:focus {
+.xat-input input:focus, .form-control:focus {
   outline: none;
   border-color: #FE4454;
   box-shadow: 0 0 0 1px rgba(254, 68, 84, 0.3);
 }
 
-.chat-input button {
+.xat-input button {
   border-radius: 20px;
   padding: 10px 20px;
 }
 
-.chat-placeholder {
+.xat-placeholder {
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -488,20 +488,20 @@ export default {
   padding: 30px;
 }
 
-.chat-placeholder p {
+.xat-placeholder p {
   font-size: 1.2rem;
   margin-bottom: 15px;
   color: #888;
 }
 
 @media (max-width: 768px) {
-  .chat-container {
+  .xat-container {
     flex-direction: column;
     height: 90vh;
     margin: 10px;
   }
 
-  .chat-sidebar {
+  .xat-sidebar {
     width: 100%;
     max-height: 30%;
     padding: 10px;
@@ -516,11 +516,11 @@ export default {
     max-width: 90%;
   }
 
-  .chat-header, .chat-input {
+  .xat-header, .xat-input {
     padding: 10px;
   }
 
-  .chat-messages {
+  .xat-messages {
     padding: 15px;
   }
 

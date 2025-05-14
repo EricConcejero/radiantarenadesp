@@ -89,7 +89,7 @@
                     <button @click="mostrarConfirmacion" class="action-btn contratar-btn">
                         <i class="fas fa-user-plus"></i> Agregar al Equipo
                     </button>
-                    <button @click="mostrarModalMensaje" class="action-btn chat-btn">
+                    <button @click="mostrarModalMensaje" class="action-btn xat-btn">
                         <i class="fas fa-comments"></i> Enviar Mensaje
                     </button>
                 </div>
@@ -303,13 +303,13 @@ export default {
                 this.mostrarMensaje('Error al contratar jugador: ' + error.response?.data?.message || 'Error desconocido', 'error');
             });
         },
-        iniciarChat() {
+        iniciarxat() {
             if (!this.jugador || !this.usuario || !this.jugador.usuario) {
                 return;
             }
 
-            // Using the existing chat route from your codebase
-            window.location.href = `/chat/create?usuarios[]=${this.jugador.usuario.id_usuario}`;
+            // Using the existing xat route from your codebase
+            window.location.href = `/xat/create?usuarios[]=${this.jugador.usuario.id_usuario}`;
         },
 
         mostrarModalMensaje() {
@@ -344,7 +344,7 @@ export default {
             }
 
             // First, check if a conversation already exists between these users
-            axios.get(`${baseUrl}/chat/conversaciones`)
+            axios.get(`${baseUrl}/xat/conversaciones`)
                 .then(response => {
                     const conversations = response.data;
                     // Look for an existing conversation with just these two users
@@ -356,7 +356,7 @@ export default {
 
                     if (existingConversation) {
                         // Conversation exists, send message to existing conversation
-                        axios.post(`${baseUrl}/chat/${existingConversation.id_conversacion}/enviar`, {
+                        axios.post(`${baseUrl}/xat/${existingConversation.id_conversacion}/enviar`, {
                             mensaje: this.mensajeTexto
                         })
                         .then(response => {
@@ -364,9 +364,9 @@ export default {
                             this.showModalMensaje = false;
                             this.mostrarMensaje('Mensaje enviado exitosamente', 'success');
 
-                            // Optionally redirect to the chat
+                            // Optionally redirect to the xat
                             setTimeout(() => {
-                                window.location.href = `${baseUrl}/chat/${existingConversation.id_conversacion}`;
+                                window.location.href = `${baseUrl}/xat/${existingConversation.id_conversacion}`;
                             }, 500);
                         })
                         .catch(error => {
@@ -375,7 +375,7 @@ export default {
                         });
                     } else {
                         // No conversation exists, create one with the custom message
-                        axios.post(`${baseUrl}/chat/store`, {
+                        axios.post(`${baseUrl}/xat/store`, {
                             usuarios: [targetUserId],
                             mensaje: this.mensajeTexto
                         })
@@ -387,7 +387,7 @@ export default {
                             // Redirect to the new conversation
                             if (response.data.conversacion) {
                                 setTimeout(() => {
-                                    window.location.href = `${baseUrl}/chat/${response.data.conversacion.id_conversacion}`;
+                                    window.location.href = `${baseUrl}/xat/${response.data.conversacion.id_conversacion}`;
                                 }, 500);
                             }
                         })
@@ -658,11 +658,11 @@ export default {
     background-color: #45a049;
 }
 
-.chat-btn {
+.xat-btn {
     background-color: #2196F3;
 }
 
-.chat-btn:hover {
+.xat-btn:hover {
     background-color: #0b7dda;
 }
 

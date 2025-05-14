@@ -80,11 +80,11 @@
         <main class="py-4">
             @yield('content')
             <!-- Remove this include - it's adding the first duplicate -->
-            {{-- @include('partials.chat-button') --}}
+            {{-- @include('partials.xat-button') --}}
         </main>
 
         <!-- Remove this include too - it's adding the second duplicate -->
-        {{-- @include('partials.chat-button') --}}
+        {{-- @include('partials.xat-button') --}}
     </div>
 
     <!-- Scripts should be loaded after DOM content to ensure Vue can mount properly -->

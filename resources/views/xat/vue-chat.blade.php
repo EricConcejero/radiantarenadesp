@@ -3,10 +3,10 @@
 @section('content')
 <div class="container-fluid">
     <div id="app">
-        <!-- Vue will mount the chat component here -->
-        <chat-component
+        <!-- Vue will mount the xat component here -->
+        <xat-component
             :initial-conversation-id="{{ $id ? $id : 'null' }}"
-        ></chat-component>
+        ></xat-component>
     </div>
 </div>
 @endsection
@@ -20,7 +20,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('Chat page loaded - Vue component should initialize');
+        console.log('xat page loaded - Vue component should initialize');
         // No need for the old JavaScript here as Vue will handle everything
     });
 </script>

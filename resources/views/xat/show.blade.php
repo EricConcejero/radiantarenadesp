@@ -3,10 +3,10 @@
 @section('content')
 <div class="container-fluid">
     <div id="app">
-        <!-- Vue chat component with the current conversation ID -->
-        <chat-component
+        <!-- Vue xat component with the current conversation ID -->
+        <xat-component
             :initial-conversation-id="{{ $conversacion->id_conversacion }}"
-        ></chat-component>
+        ></xat-component>
     </div>
 </div>
 @endsection
@@ -20,7 +20,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('Chat conversation loaded - ID: {{ $conversacion->id_conversacion }}');
+        console.log('xat conversation loaded - ID: {{ $conversacion->id_conversacion }}');
     });
 </script>
 @endpush

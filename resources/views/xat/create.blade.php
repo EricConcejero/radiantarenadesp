@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="chat-create-container">
+    <div class="xat-create-container">
         <h1>Nueva Conversación</h1>
 
         @if ($errors->any())
@@ -15,7 +15,7 @@
         </div>
         @endif
 
-        <form action="{{ route('chat.store') }}" method="POST">
+        <form action="{{ route('xat.store') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="usuarios">Seleccionar Usuarios</label>
@@ -45,7 +45,7 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn-submit">Crear Conversación</button>
-                <a href="{{ route('chat.index') }}" class="btn-cancel">Cancelar</a>
+                <a href="{{ route('xat.index') }}" class="btn-cancel">Cancelar</a>
             </div>
         </form>
     </div>
@@ -54,7 +54,7 @@
 
 @push('styles')
 <style>
-    .chat-create-container {
+    .xat-create-container {
         max-width: 800px;
         margin: 20px auto;
         padding: 25px;
