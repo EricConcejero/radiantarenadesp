@@ -88,26 +88,26 @@ Route::get('/api/profile', [UsuarioController::class, 'getProfileData'])->name('
 
 // API routes para el xat
 Route::prefix('api/xat')->middleware('auth')->group(function () {
-    Route::get('/conversaciones', [xatController::class, 'getConversaciones']);
-    Route::get('/{id}/mensajes', [xatController::class, 'getMensajes']);
-    Route::post('/{id}/enviar', [xatController::class, 'enviarMensaje']);
-    Route::get('/unread-count', [xatController::class, 'getUnreadMessagesCount']);
+    Route::get('/conversaciones', [XatController::class, 'getConversaciones']);
+    Route::get('/{id}/mensajes', [XatController::class, 'getMensajes']);
+    Route::post('/{id}/enviar', [XatController::class, 'enviarMensaje']);
+    Route::get('/unread-count', [XatController::class, 'getUnreadMessagesCount']);
 });
 
 // Consolidate all xat routes in one group
 Route::middleware(['auth'])->group(function () {
     // xat routes
-    Route::get('/xat', [App\Http\Controllers\xatController::class, 'index'])->name('xat.index');
-    Route::get('/xat/create', [App\Http\Controllers\xatController::class, 'create'])->name('xat.create');
-    Route::post('/xat/store', [App\Http\Controllers\xatController::class, 'store'])->name('xat.store');
-    Route::get('/xat/conversaciones', [App\Http\Controllers\xatController::class, 'getConversaciones']);
-    Route::get('/xat/{id}/mensajes', [App\Http\Controllers\xatController::class, 'getMensajes']);
-    Route::post('/xat/{id}/enviar', [App\Http\Controllers\xatController::class, 'enviarMensaje']);
-    Route::get('/xat/unread-count', [App\Http\Controllers\xatController::class, 'getUnreadCount'])->name('xat.unread-count');
-    Route::get('/xat/{id}', [App\Http\Controllers\xatController::class, 'show'])->name('xat.show');
+    Route::get('/xat', [App\Http\Controllers\XatController::class, 'index'])->name('xat.index');
+    Route::get('/xat/create', [App\Http\Controllers\XatController::class, 'create'])->name('xat.create');
+    Route::post('/xat/store', [App\Http\Controllers\XatController::class, 'store'])->name('xat.store');
+    Route::get('/xat/conversaciones', [App\Http\Controllers\XatController::class, 'getConversaciones']);
+    Route::get('/xat/{id}/mensajes', [App\Http\Controllers\XatController::class, 'getMensajes']);
+    Route::post('/xat/{id}/enviar', [App\Http\Controllers\XatController::class, 'enviarMensaje']);
+    Route::get('/xat/unread-count', [App\Http\Controllers\XatController::class, 'getUnreadCount'])->name('xat.unread-count');
+    Route::get('/xat/{id}', [App\Http\Controllers\XatController::class, 'show'])->name('xat.show');
 
     // Vue xat legacy routes
-    Route::get('/vue-xat', [App\Http\Controllers\xatController::class, 'vuexat'])->name('xat.vue');
-    Route::get('/vue-xat/{id}', [App\Http\Controllers\xatController::class, 'vuexat'])->name('xat.vue.show');
+    Route::get('/vue-xat', [App\Http\Controllers\XatController::class, 'vuexat'])->name('xat.vue');
+    Route::get('/vue-xat/{id}', [App\Http\Controllers\XatController::class, 'vuexat'])->name('xat.vue.show');
 });
 
