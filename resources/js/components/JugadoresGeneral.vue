@@ -441,7 +441,8 @@ export default {
 
         // Métodos para obtener datos generales de jugadores
         fetchJugadores() {
-            return axios.get('/mercadojugadores')
+            const url = `${this.baseUrl}/mercadojugadores`;
+            return axios.get(url)
                 .then(response => {
                     console.log('Datos recibidos (jugadores completos):', response.data);
                     this.jugadores = response.data;
