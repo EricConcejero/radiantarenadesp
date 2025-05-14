@@ -441,7 +441,7 @@ export default {
 
         //jugadores general
         fetchJugadores() {
-            const url = `${this.baseUrl}api/mercadojugadores`;
+            const url = `${this.baseUrl}mercadojugadores`;
             return axios.get(url)
                 .then(response => {
                     console.log('Datos recibidos (jugadores completos):', response.data);
