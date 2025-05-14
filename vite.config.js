@@ -20,4 +20,8 @@ export default defineConfig({
             host: 'localhost',
         },
     },
+      //Para poder depurar VUE desde Visual Studio Code
+    build: {
+        sourcemap: true
+    }
 });
