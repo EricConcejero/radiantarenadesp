@@ -621,12 +621,12 @@ export default {
         },
 
         getImageUrl(imageName) {
-            if (!imageName) return `${this.baseUrl}api/assets/usuarios/${this.imagenPorDefecto}`;
+            if (!imageName) return `${this.baseUrl}/assets/usuarios/${this.imagenPorDefecto}`;
             return `${this.baseUrl}assets/usuarios/${imageName}`;
         },
 
         handleImageError(event) {
-            event.target.src = `${this.baseUrl}api/assets/usuarios/${this.imagenPorDefecto}`;
+            event.target.src = `${this.baseUrl}/assets/usuarios/${this.imagenPorDefecto}`;
         },
 
         verPerfilJugador(jugadorId) {
