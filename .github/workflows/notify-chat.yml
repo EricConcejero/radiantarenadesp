@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Notify Google Chat
-        if: ${{ always() }} # Asegura que se envíe la notificación incluso si los pasos anteriores fallan
-        uses: SimonScholz/google-chat-action@main # Usa la acción google-chat-action para enviar un mensaje a Google Chat.
+        if: ${{ always() }}
+        uses: SimonScholz/google-chat-action@main 
         with:
           webhookUrl: ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
           message: |
