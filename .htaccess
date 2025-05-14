@@ -1,0 +1,10 @@
+# Activar la visualización de errores PHP
+php_flag display_errors on
+php_value error_reporting 32767
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirigir todas las solicitudes a la carpeta /public
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

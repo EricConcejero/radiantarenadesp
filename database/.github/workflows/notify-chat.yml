@@ -1,0 +1,29 @@
+name: Enviar notificación a Google Chat
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened] #  pull request: abierto, sincronizado o reabierto
+  push:
+    branches:
+      - main
+jobs:
+  google-chat-action:
+    name: Google Chat GitHub Action
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Notify Google Chat
+        if: ${{ always() }} # Asegura que se envíe la notificación incluso si los pasos anteriores fallan
+        uses: SimonScholz/google-chat-action@main # Usa la acción google-chat-action para enviar un mensaje a Google Chat.
+        with:
+          webhookUrl: ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
+          message: |
+            📢 **GitHub Notification**
+            - **Repository**: ${{ github.repository }}
+            - **Event**: ${{ github.event_name }}
+            - **Actor**: ${{ github.actor }}
+            - **Pull Request**: ${{ github.event.pull_request.html_url || 'N/A' }}
