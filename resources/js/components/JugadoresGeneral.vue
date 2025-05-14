@@ -439,9 +439,9 @@ export default {
                 });
         },
 
-        // Métodos para obtener datos generales de jugadores
+        //jugadores general
         fetchJugadores() {
-            const url = `${this.baseUrl}/mercadojugadores`;
+            const url = `${this.baseUrl}mercadojugadores`;
             return axios.get(url)
                 .then(response => {
                     console.log('Datos recibidos (jugadores completos):', response.data);
