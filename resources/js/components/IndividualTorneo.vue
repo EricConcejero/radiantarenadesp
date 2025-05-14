@@ -128,7 +128,7 @@
             <!-- Display bracket status -->
             <div v-if="bracketExists" class="bracket-info">
                 <p>El bracket para este torneo ya está generado.</p>
-                <a :href="`/radiantarena/radiantarena/laravel/public/torneos/individual/${torneo.id_torneos}/bracket`" class="ver-bracket-btn">Ver Bracket</a>
+                <a :href="`/torneos/individual/${torneo.id_torneos}/bracket`" class="ver-bracket-btn">Ver Bracket</a>
 
                 <!-- Option to regenerate for admins -->
                 <div v-if="usuario && (usuario.tipo_usuario === 'administrador' || isOwner)" class="regenerate-section">

@@ -415,7 +415,7 @@ export default {
 
         getLogoUrl(logo) {
             if (!logo) return null;
-            return `/radiantarena/radiantarena/laravel/public/assets/equipos/${logo}`;
+            return `/assets/equipos/${logo}`;
         }
     },
     mounted() {

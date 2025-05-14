@@ -127,7 +127,7 @@ export default {
     },
     cargarConversaciones() {
       // Use direct http instance with correct URL
-      this.http.get('/radiantarena/radiantarena/laravel/public/chat/conversaciones')
+      this.http.get('chat/conversaciones')
         .then(response => {
           console.log('Conversaciones cargadas:', response.data);
           this.conversaciones = response.data;
@@ -144,7 +144,7 @@ export default {
       this.selectedConversationId = id;
 
       // Use direct http instance with correct URL
-      this.http.get(`/radiantarena/radiantarena/laravel/public/chat/${id}/mensajes`)
+      this.http.get(`chat/${id}/mensajes`)
         .then(response => {
           console.log('Conversación cargada:', response.data);
           this.conversacionActual = response.data;
@@ -165,7 +165,7 @@ export default {
       if (!this.nuevoMensaje.trim() || !this.selectedConversationId) return;
 
       // Use direct http instance with correct URL
-      this.http.post(`/radiantarena/radiantarena/laravel/public/chat/${this.selectedConversationId}/enviar`, {
+      this.http.post(`/chat/${this.selectedConversationId}/enviar`, {
         mensaje: this.nuevoMensaje
       })
         .then(response => {
