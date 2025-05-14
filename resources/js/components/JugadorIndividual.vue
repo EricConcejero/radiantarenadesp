@@ -217,7 +217,7 @@ export default {
                 // If not in public path, use simple path directly in axios.get()
                 console.log('Fetching player data from: /MercadoJugadores/' + this.id);
 
-                axios.get(`/MercadoJugadores/${this.id}`)
+                axios.get(`api/MercadoJugadores/${this.id}`)
                     .then(response => {
                         console.log('Player data received:', response.data);
                         this.jugador = response.data;
@@ -286,7 +286,7 @@ export default {
                 return;
             }
 
-            axios.post('/contratar-jugador', {
+            axios.post('api/contratar-jugador', {
                 jugador_id: this.jugador.id_jugador,
                 entrenador_id: this.usuario.id_usuario
             })
@@ -344,7 +344,7 @@ export default {
             }
 
             // First, check if a conversation already exists between these users
-            axios.get(`${baseUrl}/xat/conversaciones`)
+            axios.get(`${baseUrl}api/xat/conversaciones`)
                 .then(response => {
                     const conversations = response.data;
                     // Look for an existing conversation with just these two users
@@ -356,7 +356,7 @@ export default {
 
                     if (existingConversation) {
                         // Conversation exists, send message to existing conversation
-                        axios.post(`${baseUrl}/xat/${existingConversation.id_conversacion}/enviar`, {
+                        axios.post(`${baseUrl}api/xat/${existingConversation.id_conversacion}/enviar`, {
                             mensaje: this.mensajeTexto
                         })
                         .then(response => {
@@ -375,7 +375,7 @@ export default {
                         });
                     } else {
                         // No conversation exists, create one with the custom message
-                        axios.post(`${baseUrl}/xat/store`, {
+                        axios.post(`${baseUrl}api/xat/store`, {
                             usuarios: [targetUserId],
                             mensaje: this.mensajeTexto
                         })

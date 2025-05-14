@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       unreadCount: 0,
-      xatRoute: '/radiantarena/radiantarena/laravel/public/xat',
+      xatRoute: '/xat',
       userId: null,
       xatInterfaceActive: false, // New property to track if we're in xat interface
       intervalId: null
