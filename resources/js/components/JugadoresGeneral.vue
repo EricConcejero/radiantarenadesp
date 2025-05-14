@@ -354,7 +354,7 @@ export default {
             this.cargando = true;
             this.filtrandoPor = 'estadoEquipo';
 
-            const url = `${this.baseUrl}jugadores/filtro-equipo/${estado}`;
+            const url = `${this.baseUrl}api/jugadores/filtro-equipo/${estado}`;
             console.log(`Filtrando jugadores por estado: ${url}`);
 
             axios.get(url)
@@ -377,7 +377,7 @@ export default {
             this.cargando = true;
             this.filtrandoPor = 'equipoEspecifico';
 
-            const url = `${this.baseUrl}jugadores/filtro-equipo-especifico/${equipoId || 'null'}`;
+            const url = `${this.baseUrl}api/jugadores/filtro-equipo-especifico/${equipoId || 'null'}`;
             console.log(`Filtrando jugadores por equipo: ${url}`);
 
             axios.get(url)
@@ -400,7 +400,7 @@ export default {
             this.cargando = true;
             this.filtrandoPor = 'busqueda';
 
-            const url = `${this.baseUrl}jugadores/filtro-busqueda/${encodeURIComponent(busqueda)}`;
+            const url = `${this.baseUrl}api/jugadores/filtro-busqueda/${encodeURIComponent(busqueda)}`;
             console.log(`Buscando jugadores: ${url}`);
 
             axios.get(url)
@@ -422,7 +422,7 @@ export default {
         fetchEquipos() {
             this.cargandoEquipos = true;
 
-            const url = `${this.baseUrl}equipos/lista`;
+            const url = `${this.baseUrl}api/equipos/lista`;
             console.log('Cargando equipos desde URL:', url);
 
             axios.get(url)
@@ -621,12 +621,12 @@ export default {
         },
 
         getImageUrl(imageName) {
-            if (!imageName) return `${this.baseUrl}assets/usuarios/${this.imagenPorDefecto}`;
+            if (!imageName) return `${this.baseUrl}api/assets/usuarios/${this.imagenPorDefecto}`;
             return `${this.baseUrl}assets/usuarios/${imageName}`;
         },
 
         handleImageError(event) {
-            event.target.src = `${this.baseUrl}assets/usuarios/${this.imagenPorDefecto}`;
+            event.target.src = `${this.baseUrl}api/assets/usuarios/${this.imagenPorDefecto}`;
         },
 
         verPerfilJugador(jugadorId) {
