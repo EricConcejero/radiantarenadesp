@@ -68,7 +68,7 @@ export default {
       });
 
       // Use the direct path without the API prefix
-      http.get('/radiantarena/radiantarena/laravel/public/xat/unread-count')
+      http.get('/xat/unread-count')
         .then(response => {
           console.log('Unread count response:', response.data);
           this.unreadCount = response.data.count;
