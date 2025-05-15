@@ -217,7 +217,7 @@ export default {
                 // If not in public path, use simple path directly in axios.get()
                 console.log('Fetching player data from: /MercadoJugadores/' + this.id);
 
-                axios.get(`api/MercadoJugadores/${this.id}`)
+                axios.get(`/MercadoJugadores/${this.id}`)
                     .then(response => {
                         console.log('Player data received:', response.data);
                         this.jugador = response.data;
