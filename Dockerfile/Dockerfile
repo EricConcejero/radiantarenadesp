@@ -1,10 +1,6 @@
-# Imagen base de PHP con Apache
-FROM php:8.1-apache
+# Stage 1: Laravel + PHP + Node.js
+FROM php:8.2-fpm AS laravel
 
-# Etiqueta para identificar el mantenedor
-LABEL maintainer="ericconcejero"
-
-# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -14,64 +10,51 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nodejs \
-    npm
+    npm \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Limpiar cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Instalar extensiones PHP
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Configurar Apache
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-RUN a2enmod rewrite
-
-# Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establecer directorio de trabajo
-WORKDIR /var/www/html
+WORKDIR /radiantarena.ericconcejero.me/htdocs/
 
-# Copiar primero solo los archivos necesarios para composer
 COPY composer.json composer.lock ./
+RUN composer install --no-interaction --optimize-autoloader
 
-# Crear el directorio vendor con permisos adecuados
-RUN mkdir -p /var/www/html/vendor && \
-    chmod 777 /var/www/html/vendor
-
-# Instalar dependencias de Composer sin scripts (para evitar errores)
-RUN composer install --no-scripts --no-autoloader --ignore-platform-reqs || true
-
-# Copiar el resto de archivos del proyecto
 COPY . .
 
-# Crear directorios necesarios y establecer permisos
-RUN mkdir -p /var/www/html/bootstrap/cache && \
-    mkdir -p /var/www/html/storage/framework/cache && \
-    mkdir -p /var/www/html/storage/framework/sessions && \
-    mkdir -p /var/www/html/storage/framework/views && \
-    mkdir -p /var/www/html/storage/logs
+RUN mkdir -p storage bootstrap/cache \
+    && chown -R www-data:www-data /var/www \
+    && chmod -R 775 storage bootstrap/cache
 
-# Copiar el .env.example a .env si no existe
-RUN if [ ! -f ".env" ]; then cp .env.example .env; fi
+# Stage 2: Producción con NGINX sin default.conf externo
+FROM nginx:latest
 
-# Establecer permisos antes de ejecutar composer
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Crear configuración directamente
+RUN echo 'server {\n\
+    listen 80;\n\
+    index index.php index.html;\n\
+    root /radiantarena.ericconcejero.me/htdocs/public;\n\
+    \n\
+    location / {\n\
+    try_files $uri $uri/ /index.php?$query_string;\n\
+    }\n\
+    \n\
+    location ~ \.php$ {\n\
+    include fastcgi_params;\n\
+    fastcgi_pass 127.0.0.1:9000;\n\
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;\n\
+    fastcgi_index index.php;\n\
+    }\n\
+    \n\
+    location ~ /\.ht {\n\
+    deny all;\n\
+    }\n\
+    }' > /etc/nginx/conf.d/default.conf
 
-# Completar la instalación de Composer (moved after .env creation)
-RUN composer dump-autoload --optimize || echo "Warning: Composer dump-autoload had issues but continuing build"
+COPY --from=laravel /radiantarena.ericconcejero.me/htdocs/public /radiantarena.ericconcejero.me/htdocs/public
 
-# Generar clave de aplicación
-RUN php artisan key:generate --force
+WORKDIR /radiantarena.ericconcejero.me/htdocs/
 
-# Instalar dependencias de Node.js y compilar assets si existe package.json
-RUN if [ -f "package.json" ]; then npm install && npm run build; fi
-
-# Exponer puerto 80
 EXPOSE 80
 
-# Comando de arranque
-CMD ["apache2-foreground"]
+CMD ["nginx", "-g", "daemon off;"]
