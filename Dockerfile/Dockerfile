@@ -37,27 +37,38 @@ WORKDIR /var/www/html
 # Copiar primero solo los archivos necesarios para composer
 COPY composer.json composer.lock ./
 
+# Crear el directorio vendor con permisos adecuados
+RUN mkdir -p /var/www/html/vendor && \
+    chmod 777 /var/www/html/vendor
+
 # Instalar dependencias de Composer sin scripts (para evitar errores)
-RUN composer install --no-scripts --no-autoloader
+RUN composer install --no-scripts --no-autoloader --ignore-platform-reqs
 
 # Copiar el resto de archivos del proyecto
 COPY . .
 
+# Crear directorios necesarios y establecer permisos
+RUN mkdir -p /var/www/html/bootstrap/cache && \
+    mkdir -p /var/www/html/storage/framework/cache && \
+    mkdir -p /var/www/html/storage/framework/sessions && \
+    mkdir -p /var/www/html/storage/framework/views && \
+    mkdir -p /var/www/html/storage/logs
+
 # Copiar el .env.example a .env si no existe
 RUN if [ ! -f ".env" ]; then cp .env.example .env; fi
 
-# Generar clave de aplicación
-RUN php artisan key:generate --force
-
 # Completar la instalación de Composer
 RUN composer dump-autoload --optimize
+
+# Generar clave de aplicación
+RUN php artisan key:generate --force
 
 # Establecer permisos
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Instalar dependencias de Node.js y compilar assets
-RUN npm install && npm run build
+# Instalar dependencias de Node.js y compilar assets si existe package.json
+RUN if [ -f "package.json" ]; then npm install && npm run build; fi
 
 # Exponer puerto 80
 EXPOSE 80
