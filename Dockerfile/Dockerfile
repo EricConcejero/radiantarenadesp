@@ -17,14 +17,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /radiantarena.ericconcejero.me/htdocs/
 
-COPY composer.json composer.lock ./
-RUN composer install --no-interaction --optimize-autoloader
-
+# Copy all application files first
 COPY . .
 
+# Create necessary directories and set permissions
 RUN mkdir -p storage bootstrap/cache \
     && chown -R www-data:www-data /var/www \
     && chmod -R 775 storage bootstrap/cache
+
+# Now run Composer after all files are in place
+RUN composer install --no-interaction --optimize-autoloader
 
 # Stage 2: Producción con NGINX sin default.conf externo
 FROM nginx:latest
