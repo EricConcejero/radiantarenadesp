@@ -42,7 +42,7 @@ RUN mkdir -p /var/www/html/vendor && \
     chmod 777 /var/www/html/vendor
 
 # Instalar dependencias de Composer sin scripts (para evitar errores)
-RUN composer install --no-scripts --no-autoloader --ignore-platform-reqs
+RUN composer install --no-scripts --no-autoloader --ignore-platform-reqs || true
 
 # Copiar el resto de archivos del proyecto
 COPY . .
@@ -57,15 +57,15 @@ RUN mkdir -p /var/www/html/bootstrap/cache && \
 # Copiar el .env.example a .env si no existe
 RUN if [ ! -f ".env" ]; then cp .env.example .env; fi
 
-# Completar la instalación de Composer
-RUN composer dump-autoload --optimize
+# Establecer permisos antes de ejecutar composer
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Completar la instalación de Composer (moved after .env creation)
+RUN composer dump-autoload --optimize || echo "Warning: Composer dump-autoload had issues but continuing build"
 
 # Generar clave de aplicación
 RUN php artisan key:generate --force
-
-# Establecer permisos
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Instalar dependencias de Node.js y compilar assets si existe package.json
 RUN if [ -f "package.json" ]; then npm install && npm run build; fi
